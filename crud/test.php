@@ -1,5 +1,5 @@
 <?php 
-$tableName ='item_order'   ;
+$tableName ='item_schedule'   ;
 // Include necessary files for configuration and table functions
     include("config.php");
    
@@ -27,7 +27,7 @@ $form= new Form();
    
     // print_r($form->getInputValues($tableName,$columnNames[0],""));
     echo "<h1>" . isHidden("item_id");
-    print_r($foreignKey);
+    print_r($inputAliases);
     
     
 ?>

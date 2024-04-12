@@ -64,15 +64,16 @@
     function renameColumns($columnNames)
     {
         global $showAliases;
+        $columnRename=[];
 
         // Iterate through column names and rename based on aliases
         for ($i = 0; $i < count($columnNames); $i++) {
             if (isset($showAliases[$columnNames[$i]]))
-                $columnNames[$i] = $showAliases[$columnNames[$i]];
+                $columnRenames[$columnNames[$i]] = $showAliases[$columnNames[$i]];
         }
 
         // Return the array of renamed column names
-        return $columnNames;
+        return $columnRenames;
     }
 
 
@@ -97,7 +98,6 @@
  *  @param string $search - key value for search item
  *  @param string $tableName - Name of the table
  *  @param array $columnNames - headings of the columns
- * 
  *  @return array $searchResults - 2D array that stores all the columns
  */
 function searchbar($conn, $search, $tableName, $columnNames)
@@ -157,7 +157,7 @@ function searchbar($conn, $search, $tableName, $columnNames)
  *  @param string $where - The WHERE condition for the query.
  *  @param int $limit - Number of entries limited per page.
  *  @param int $page - Current page number. 
- *  @return array - An associative array containing fetch_all records.
+ *  @return array - An associative 2D array containing fetch_all records.
  */
 function getRecords($tableName, $where, $limit, $page)
 {
@@ -348,7 +348,7 @@ class Form
 
     public function createInput($tableName, $columnName, $value)
     {
-        global $foreignKey;
+        global $foreignKey; 
         // detects the input type of the particular column
         $check = $this->setInputType($tableName, $columnName);
         // check if it is a selection type
@@ -666,11 +666,11 @@ function isHidden($columnName)
 {
     global $toHide, $showAliases, $foreignKey;
     if (in_array($columnName, $foreignKey))
-        return "";
+        return ;
     if (in_array($columnName, $toHide) !== false)
         return "hidden";
     
-    return "";
+    return ;
 }
 
 function isTextArea($columnName)

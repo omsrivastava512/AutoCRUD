@@ -17,6 +17,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
                 'category_image' => 'Image'
 
             ];
+            $nameField = 'category_name';
 
             break;
 
@@ -31,6 +32,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
                 'prep_time' => 'Preparation Time',
                 'item_image' => 'Image',
             ];
+            $nameField = 'item_name';
             break;
 
         case 'item_schedule':
@@ -41,6 +43,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
                 'item_id' => 'Item Name',
 
             ];
+            $nameField = 'item_id';
             break;
             
         case 'registered_user':
@@ -51,6 +54,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
                 'user_phone' => 'Phone',
 
             ];
+            $nameField = 'user_name';
             break;
 
             case 'item_order':
@@ -63,6 +67,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
                     'item_quantity' => 'Quantity',
                     'order_notes' => 'Notes',
                 ];
+                $nameField = 'item_id';
             break;
 
         /**
@@ -200,7 +205,7 @@ $categoryColumnList = []; // Stores the relevant column name to be fetched using
                 ];
                 break;
             case 'item_schedule':
-            $foreignKey = [
+            $categoryColumnList = [
                 'item_list' => 'item_name'
             ];
             break;
