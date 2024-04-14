@@ -38,6 +38,7 @@ $form= new Form();
         
         <input type="file" name="" id="d" accept="">
     </form>
+    <input type="search" name="Hal" id="">
 </body>
 
 

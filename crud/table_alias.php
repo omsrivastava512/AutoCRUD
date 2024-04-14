@@ -17,8 +17,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
                 'category_image' => 'Image'
 
             ];
-            $nameField = 'category_name';
-
+            $nameField = 'category_name';       // Name field is used to identify the field that represents the record's name
             break;
 
         case 'item_list':
@@ -33,6 +32,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
                 'item_image' => 'Image',
             ];
             $nameField = 'item_name';
+            $searchField = 'category_id';     // Search Field identifies the field that can be used to categorize the records
             break;
 
         case 'item_schedule':
@@ -68,6 +68,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
                     'order_notes' => 'Notes',
                 ];
                 $nameField = 'item_id';
+                $searchField = 'user_id';
             break;
 
         /**
@@ -138,7 +139,6 @@ $inputAliases = [];       // same as above but for insert/edit
                 $inputAliases = [
                     'order_id' => 'Id',
                     'item_id' => 'Item',
-                    'order_amount' => 'Order Amount',
                     'order_status' => 'Status',
                     'order_notes' => 'Notes',
                 ];
@@ -262,6 +262,11 @@ $toHide = array(
 
 
 /*********************```E N O U G H    S C R O L L I N G```*********************/
+/*********************```E N O U G H    S C R O L L I N G```*********************/
+/*********************```E N O U G H    S C R O L L I N G```*********************/
+
+
+
 
 
 

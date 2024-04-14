@@ -1,7 +1,6 @@
 <?php
 if (!isset($_REQUEST['tablename'])) {
     die("No table found");
-
 }
 
 $tableName = $_REQUEST['tablename']; 
@@ -47,85 +46,117 @@ $columnRenames = renameColumns($columnNames);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show <?php echo $tableAliases[$tableName]; ?> </title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@28,600,1,200" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 </head>
 
 <body>
 
-    <div class="flex h-screen justify-center items-center">
-
-        <div class="relative overflow-x-auto shadow-lg sm:rounded-lg">
+    
+    <!-- Main Section -->
+    <div id="main" class="flex h-screen justify-center items-center">
+        <!-- Content Here -->
+        <div class="m-2 p-5 relative overflow-x-auto shadow-2xl sm:rounded-lg">
         
-        <!-- Title of the table -->
-        <h2 class="font-bold text-center text-2xl text-yellow-700 border-b"><?php echo $tableAliases[$tableName];?> </h2>
-        <!-- Search Box  -->
-        <div class="m-2 p-5 relative w-auto">
-            <input type="search" id="search" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search ..." required />
-        </div>
+            <!-- Name of the table -->
+            <h2 class="font-bold text-center text-2xl text-yellow-700 border-b"><?php echo $tableAliases[$tableName];?> </h2>
+            
+            
+            <!-- Search Area  -->
+            <div class="m-2  relative ">
+                <!-- Search Icon -->
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 1"> <span class="text-white material-symbols-outlined border-white">search</span>   </div>
+                
+                <!-- Search Bar-->
+                <input type="text" id="search" class="block w-full p-4 ps-10 text-sm text-gray-900 rounded-3xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." />
+                
+                <!-- X icon -->
+                <div id="clearSearch" class="absolute inset-y-0 end-5 flex items-center cursor-pointer "><span class="text-white material-symbols-outlined">close</span> </div>  
+            
+            </div>
 
-        <!-- Table Starts Here -->
+            <!-- Table Starts Here -->
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-100">
+                
                 <!-- Column Names/ Headings -->
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
+                        <!--  -->
                         <th scope="col" class="px-6 py-3">Serial No.</th>
+
                         <!-- Printing headings/ column aliases  -->
                         <?php foreach ($columnRenames as $field => $col) {
                             $hidden = isHidden($col);
                             echo '<th scope="col" class="px-6 py-3"' . $hidden . '>' . $col . '</th>';
                         } ?>
 
+                        <!-- -->
                         <th scope="col" class="px-6 py-3">Options</th>
                     </tr>
                 </thead>
 
+                <!-- table-data is manipulated by ajax during search -->
+                <tbody id="table-data" >      
 
-                <!-- Search data  -->
-                <tbody id="table-data" >
-                    </tr>
-                    <!-- Pagination -->
-                    <?php $ni = ($page - 1) * $limit + 1;
+                    <?php $ni = ($page - 1) * $limit + 1;       // pagination
                         
 
-                    // Loop to print n number of rows    // $rows is a 2D array of the whole table
-                    for ($n = 0; $n < count($rows); $n++) {  $id = ""; 
-                                $name = "'".$rows[$n][$nameField]."'";  ?>
+                    // Loop to print n number of rows    
+                    for ($n = 0; $n < count($rows); $n++) {     // $rows is a 2D array containing the whole table
+                        $id = "";   // stores the id of the particular record for edit/delete
+                        $name = "'".addslashes($rows[$n][$nameField])."'";      // stores the name that represents the particular record
+                        ?>  
 
-                        <!-- Row  -->
+                        <!-- Printing a row  -->
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <!-- Col 1 Serial No. -->
+                            <!-- First column - Serial No. -->
                             <td class="text-center"><?php echo $ni;  $ni++; ?> </td>
 
                             <!-- Loop to print i number of columns -->
                             <?php for ($i = 0; $i < count($columnNames); $i++) {
                                 // Hide id column from display 
                                 if ($hidden = isHidden($columnNames[$i]))
-                                    $id = $rows[$n][$columnNames[$i]];    // storing the id to use in operations
+                                    $id = $rows[$n][$columnNames[$i]];    // storing the id to use in edit/delete
                                 
                                 // checking for foreign keys
                                 if (in_array($columnNames[$i], $foreignKey) !== false) { 
                                         $form = new form();
                                         $values = $form->getCategoryValues($columnNames[$i]);
-                                        $fk = $rows[$n][$columnNames[$i]];
-                                        // print fk_name using fk_id as index $fk
-                                        echo '<td class="text-center">' . $values[$fk] . '</td>';
+                                        $k = $rows[$n][$columnNames[$i]];       // k stores the foreign key value for this record 
+
+                                        // check for name representation
+                                        if($columnNames[$i]===$nameField)
+                                        $name = "'".addslashes($values[$k])."'";
+                                    
+                                        // make buttons to search category
+                                        // if($columnNames[$i]===$searchField)
+                                        echo '<td class="text-center"><input class="categorySearch cursor-pointer" type="button" value="' . $values[$k] . '"</input></td>';
+
+                                        
+                                      // print fk_name using fk_id as index $fk normally
+                                        // else
+                                        // echo '<td class="text-center">' . $values[$k] . '</td>';
                                     }
+                                
+                                // check for upload files
                                 else if (isUploadFile($columnNames[$i])){
                                     $file =  $rows[$n][$columnNames[$i]];
-                                    $link = '../img/'.$file;
+                                    $link = '../img/'.addslashes($file);
                                     echo '<td class="text-center"'."".'> <button onclick=openPopup("'.$link.'")>'. "$file" . '</button></td>';
-
-                                }
+                                 }
+                                // print cell nomally
                                 else
-                                    //  Print elements from assoc array 
-                                    echo '<td class="text-center"'.$hidden.'>' .  $rows[$n][$columnNames[$i]] . '</td>';
+                                //  Print elements from assoc array 
+                                echo '<td class="text-center"'.$hidden.'>' .  $rows[$n][$columnNames[$i]] . '</td>';
                             } ?>
                             <!-- Options Column -->
                             <td class="flex items-center px-6 py-4">
+
                                 <!-- Edit -->
                                 <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" 
                                 href="table_edit.php?<?php echo "tablename=" . $tableName . "&id=" . $id; ?>">Edit</a>
+
                                 <!-- Delete -->
                                 <button class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3" 
                                 onclick="DeleteConfirm(<?php echo $name.','.$id;?>)">Delete</button>
@@ -176,6 +207,7 @@ $columnRenames = renameColumns($columnNames);
         </div>
     </div>
     <script>
+        
         function DeleteConfirm(name, id) {
 
             let url = "table_save.php?<?php echo "tablename=$tableName&pagename=Del&id="; ?>";
@@ -189,10 +221,8 @@ $columnRenames = renameColumns($columnNames);
 
     <script>
         $(document).ready(function() {
-            $("#search").keyup(function() {
-                var search_term = $(this).val();
-                // alert(search_term);
-                if (search_term != "") {
+            function  searchRecords(search_term){
+                if (search_term.length>=0) {
                     $.ajax({
                         url: "search.php?tablename=<?php echo $tableName;?>",
                         type: "POST",
@@ -208,11 +238,37 @@ $columnRenames = renameColumns($columnNames);
                         }
                     });
                 }
+            }
 
+            // triggers when type in search bar
+            $("#search").keyup (function() {
+                var search_term = $(this).val();
+                // alert(search_term);
+                searchRecords(search_term);
             });
+
+            // triggers when click category button
+            $(".categorySearch").click(function() {
+            var search_term = $(this).val(); // Assuming you want to use the value from #search
+            searchRecords(search_term);
+            $("#search").val(search_term);
+            $("#search").focus();
+            $("#clearSearch").style.display = '';
+            }); 
+
+            // triggers when click clear-search button
+            $("#clearSearch").click(function() {
+            var search_term = " "; // Assuming you want to use the value from #search
+            searchRecords(search_term);
+            $("#search").val(search_term);
+            $("#search").focus();
+            }); 
+
         });
     </script>
     <script>
+
+        // opens image
         function openPopup(url) {
             // Define the URL and properties of the popup window
 

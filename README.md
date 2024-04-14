@@ -31,20 +31,24 @@ Configure AutoCRUD to align with your project requirements by following these se
 
    <h3> <li>
     
-  Customize `table_alias.php`:
-  </h3>Locate the config.php file and update the following values:
+  Customize `$showAliases`:
+  </h3>
+  
+  In the `table_alias.php`, 
   <ul>
-    <li type = disc>Open the table_alias.php file.
     <li type = disc>Navigate to the $showAliases array.
     <li type = disc>Create a switch case for every table in your database.
-    <li type = disc>Beneath each case, assign an associative array to $showAliases, mapping original attribute names in the table to preferred display names.
+    <li type = disc>Beneath each case, assign an associative array to $showAliases, mapping original attribute names in the table to preferred display names as keys and values, respectively.
   </ul>
+
+  The $showAliases array stores the fields that you want to be displayed in the table_show.php. Another array `$inputAliases` stores the fields that are allowed to take input through a form. Please follow the above instructions for this array as well.
+  Additionally, insert  `$nameField` and `$searchField` too inside the switch case, if needed.
 
    <h3> <li> 
      
    Customize `$tableAliases` array:
    </h3> 
-    Store the display name of the tables in the similar fashion.\
+    Store the display name of the tables in the similar fashion.
 
    <h3> <li> 
      
@@ -58,7 +62,14 @@ Configure AutoCRUD to align with your project requirements by following these se
 
   Store the column of the related table that is to fetched using the foreign key. For example, `category_name` is fetched using the foreign key `category_id` from the table `item_category`.
  
+  <h3><li> Additional Notes
+
+  Add your primary keys fields of each table in the `toHide` array in no specific order. <br>
+
+  Whenever you have make any change in the table from `table_show.php`, make sure you replicate those changes in `search.php`. <br>
+  
    
+
 
 </ol>
 
