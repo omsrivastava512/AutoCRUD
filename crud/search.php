@@ -40,8 +40,9 @@ if ($searchResults !== false) {
         // print category_name using category_id as index
         $k = $row[$col];
 
-        // if($col===$searchField)     
-        echo '<td class="text-center"><input class="searchbtn cursor-pointer" type="button" value="' . $values[$k] . '"</input></td>';
+        // if($col===$searchField)    
+        echo '<td class="text-center font-medium text-blue-400	 dark:text-blue-400 "><input class="categorySearch cursor-pointer hover:underline" type="button" value="' . $values[$k] . '"</input></td>';
+ 
         // else
         // echo '<td class="text-center "' . $hidden . '>' . $values[$k] . '</td>';
     }

@@ -131,7 +131,7 @@ $columnRenames = renameColumns($columnNames);
                                     
                                         // make buttons to search category
                                         // if($columnNames[$i]===$searchField)
-                                        echo '<td class="text-center"><input class="categorySearch cursor-pointer" type="button" value="' . $values[$k] . '"</input></td>';
+                                        echo '<td class="text-center font-medium text-blue-400	 dark:text-blue-400 "><input class="categorySearch cursor-pointer hover:underline" type="button" value="' . $values[$k] . '"</input></td>';
 
                                         
                                       // print fk_name using fk_id as index $fk normally
