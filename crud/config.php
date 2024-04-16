@@ -41,7 +41,7 @@ function getTables(){
 connectToDB();
 
 // Function to sanitize user input (prevent SQL injection)
-function sanitize_input($data) {
+function sanitizeInput($data) {
     global $conn;
     $data = trim($data);
     $data = stripslashes($data);

@@ -271,7 +271,7 @@ class Save
             else
             if (isset($_REQUEST[$column]))
                 // $record stores array of all the values
-                $record[$column] = $_REQUEST[$column];
+                $record[$column] = sanitizeInput($_REQUEST[$column]);
             else
                 $record[$column] = "";
             // $fields store array of eligible columns
@@ -294,7 +294,7 @@ class Save
         foreach ($columnNames as $column) {
             // if column is an id
             if (isHidden($column)) {
-                $id = " $column = $_REQUEST[id]";
+                $id = " $column = ".filter_var($_REQUEST['id'], FILTER_VALIDATE_INT);
                 continue;
             }
             // check whether the column sends a file
@@ -322,7 +322,7 @@ class Save
         $id = "";
         foreach ($columnNames as $column) {
             if (isHidden($column)) {
-                $id = "$column = $_REQUEST[id]";
+                $id = "$column = ".filter_var($_REQUEST['id'], FILTER_VALIDATE_INT);
                 break;
             }
         }

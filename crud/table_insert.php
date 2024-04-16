@@ -60,7 +60,7 @@ $required =  isRequired($tableName,$columnNames[0]);
       
         }
         ?>
-    <button class="bg-black rounded p-3 text-white mt-5" type="submit" value="Insert">Insert</button>
+    <button class="bg-black rounded p-3 text-white mt-5 cursor-pointer" type="submit" value="Insert">Insert</button>
     </form>
     
     <center><div id="home"> <a href="index.php">Home</a> |

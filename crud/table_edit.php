@@ -53,7 +53,7 @@ $required =  isRequired($tableName,$columnNames[0]);
 
         }
         ?>   
-    <input class="bg-black rounded p-3 text-white mt-5" type="submit" value="Update">
+    <input class="bg-black rounded p-3 text-white mt-5 cursor-pointer" type="submit" value="Update">
     </form>
 </div>
 </div>
