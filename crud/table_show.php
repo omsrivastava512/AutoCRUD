@@ -26,7 +26,7 @@ $where = "";    //where clause for the query
 // Retrieve records from the specified table
 $limit = 10;
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;;
-$rows = getRecords($tableName, $where, $limit, $page);
+$rows = getRecords($tableName, $where, $orderBy, $limit, $page);
 
 // Filter and rename columns for display according to available aliases
 $columnNames = getFilteredColumns($tableName,$showAliases);
@@ -44,7 +44,7 @@ $columnRenames = renameColumns($columnNames);
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=.8">
     <title>Show <?php echo $tableAliases[$tableName]; ?> </title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@28,600,1,200" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -55,7 +55,7 @@ $columnRenames = renameColumns($columnNames);
 
     
     <!-- Main Section -->
-    <div id="main" class="flex h-screen justify-center items-center">
+    <div id="main" class="flex h-max justify-center items-center">
         <!-- Content Here -->
         <div class="m-2 p-5 relative overflow-x-auto shadow-2xl sm:rounded-lg">
         
@@ -77,11 +77,11 @@ $columnRenames = renameColumns($columnNames);
             </div>
 
             <!-- Table Starts Here -->
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-100">
+            <table class="w-max text-pretty text-sm text-left rtl:text-right text-gray-500 dark:text-gray-100">
                 
                 <!-- Column Names/ Headings -->
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
+                    <tr class = "divide-x divide-gray-600">
                         <!--  -->
                         <th scope="col" class="px-6 py-3">Serial No.</th>
 
@@ -109,7 +109,7 @@ $columnRenames = renameColumns($columnNames);
                         ?>  
 
                         <!-- Printing a row  -->
-                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 divide-x divide-slate-700">
                             <!-- First column - Serial No. -->
                             <td class="text-center"><?php echo $ni;  $ni++; ?> </td>
 
@@ -140,15 +140,16 @@ $columnRenames = renameColumns($columnNames);
                                     }
                                 
                                 // check for upload files
-                                else if (isUploadFile($columnNames[$i])){
+                                else if (isUploadFile($columnNames[$i])){ 
                                     $file =  $rows[$n][$columnNames[$i]];
                                     $link = '../img/'.addslashes($file);
-                                    echo '<td class="text-center"'."".'> <button onclick=openPopup("'.$link.'")>'. "$file" . '</button></td>';
+                                    // echo '<td class="text-center"'."".'> <button onclick=openPopup("'.$link.'")>'. "$file" . '</button></td>';
+                                    echo '<td class="text-center"'."".'> <img class="img cursor-pointer h-20 w-20 object-cover rounded-full" alt="'. $file .'" src='.$link.'>'. '</img></td>';
                                  }
                                 // print cell nomally
                                 else
                                 //  Print elements from assoc array 
-                                echo '<td class="text-center"'.$hidden.'>' .  $rows[$n][$columnNames[$i]] . '</td>';
+                                echo '<td class="text-center "'.$hidden.'>' .  $rows[$n][$columnNames[$i]] . '</td>';
                             } ?>
                             <!-- Options Column -->
                             <td class="flex items-center px-6 py-4">
@@ -249,38 +250,39 @@ $columnRenames = renameColumns($columnNames);
 
             // triggers when click category button
             $(".categorySearch").click(function() {
-            var search_term = $(this).val(); // Assuming you want to use the value from #search
-            searchRecords(search_term);
-            $("#search").val(search_term);
-            $("#search").focus();
-            $("#clearSearch").style.display = '';
+                var search_term = $(this).val(); // Assuming you want to use the value from #search
+                searchRecords(search_term);
+                $("#search").val(search_term);
+                $("#search").focus();
+                $("#clearSearch").style.display = '';
             }); 
 
             // triggers when click clear-search button
             $("#clearSearch").click(function() {
-            var search_term = " "; // Assuming you want to use the value from #search
-            searchRecords(search_term);
-            $("#search").val(search_term);
-            $("#search").focus();
+                var search_term = " "; // Assuming you want to use the value from #search
+                searchRecords(search_term);
+                $("#search").val(search_term);
+                $("#search").focus();
             }); 
 
+
+            $(".img").click(function(){
+                var url = $(this).attr("src");
+                var width = 500;
+                var height = 500;
+                var left = (window.innerWidth - width) / 2;
+                var top = (window.innerHeight - height) / 2;
+                var features = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
+
+                // Open the popup window
+                window.open(url, "_blank", features);
+
+            });
         });
     </script>
     <script>
 
-        // opens image
-        function openPopup(url) {
-            // Define the URL and properties of the popup window
-
-            var width = 500;
-            var height = 500;
-            var left = (window.innerWidth - width) / 2;
-            var top = (window.innerHeight - height) / 2;
-            var features = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
-
-            // Open the popup window
-            window.open(url, "_blank", features);
-        }
+        // opens image        }
     </script>
 </body>
 

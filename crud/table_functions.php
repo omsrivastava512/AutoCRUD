@@ -101,7 +101,7 @@
  *  @return array $searchResults - 2D array that stores all the columns
  */
 function searchbar($conn, $search, $tableName, $columnNames)
-{
+{   global $orderBy;
     // Sanitize search term to prevent SQL injection
     $searchTerm = mysqli_real_escape_string($conn, $search);
 
@@ -124,7 +124,7 @@ function searchbar($conn, $search, $tableName, $columnNames)
     $whereClause = rtrim($whereClause, "OR ");
 
     // Perform the search query
-    $sql = "SELECT * FROM $tableName WHERE " . $whereClause. "LIMIT 10";
+    $sql = "SELECT * FROM $tableName WHERE " . $whereClause. $orderBy." LIMIT 10";
 
     // Execute the query
     $result = $conn->query($sql);
@@ -159,15 +159,15 @@ function searchbar($conn, $search, $tableName, $columnNames)
  *  @param int $page - Current page number. 
  *  @return array - An associative 2D array containing fetch_all records.
  */
-function getRecords($tableName, $where, $limit, $page)
+function getRecords($tableName, $where, $orderBy, $limit, $page)
 {
-    global $conn;
+    global $conn; 
 
     // Calculate offset based on page and limit
     $offset = ($page - 1) * $limit;
 
     // Construct SQL query with LIMIT and OFFSET
-    $sql = "SELECT * FROM $tableName $where LIMIT $limit OFFSET $offset";
+    $sql = "SELECT * FROM $tableName $where $orderBy LIMIT $limit OFFSET $offset";
 
     // Execute the query
     $result = $conn->query($sql);

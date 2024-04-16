@@ -18,6 +18,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
 
             ];
             $nameField = 'category_name';       // Name field is used to identify the field that represents the record's name
+            $orderBy = " ORDER BY category_status ASC";      //for storing order by clause of the query
             break;
 
         case 'item_list':
@@ -33,6 +34,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
             ];
             $nameField = 'item_name';
             $searchField = 'category_id';     // Search Field identifies the field that can be used to categorize the records
+            $orderBy = " ORDER BY category_id ASC";      // in DB category table, categoes will be sequenced juciciously 
             break;
 
         case 'item_schedule':
@@ -44,6 +46,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
 
             ];
             $nameField = 'item_id';
+            $orderBy = " ORDER BY schedule_day ASC";      
             break;
             
         case 'registered_user':
@@ -55,6 +58,7 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
 
             ];
             $nameField = 'user_name';
+            $orderBy = "";     
             break;
 
             case 'item_order':
@@ -67,8 +71,9 @@ $showAliases = [];      // for storing aliases of the table fields to be shown
                     'item_quantity' => 'Quantity',
                     'order_notes' => 'Notes',
                 ];
-                $nameField = 'item_id';
-                $searchField = 'user_id';
+            $nameField = 'item_id';
+            $searchField = 'user_id';
+            $orderBy = " ORDER BY created_at DESC";      //for storing order by clause of the query
             break;
 
         /**
@@ -345,7 +350,6 @@ $select = "";       //for storing select clause of the query
 $from = "";         //for storing from clause of the query
 $groupBy = "";      //for storing group by clause of the query
 $having = "";       //for storing having clause of the query
-$orderBy = "";      //for storing order by clause of the query
 $limit = "";        //for storing limit clause of the query
 $join = "";         //for storing join clause of the query
 $group = "";        //for storing group by clause of the query

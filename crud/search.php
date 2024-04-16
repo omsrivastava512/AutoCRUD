@@ -27,7 +27,7 @@ if ($searchResults !== false) {
 
     $id=$row[$columnNames[0]];
 
-    echo "<tr class='bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>";
+    echo "<tr class='p-5 bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 divide-x divide-slate-700 text-pretty'>";
     echo ' <td class="text-center">'; echo $n; echo "</td>";
     foreach ($columnNames as $col) {
       if ($hidden = isHidden($col))
@@ -48,12 +48,15 @@ if ($searchResults !== false) {
     else if (isUploadFile($col)){
       $file =  $row[$col];
       $link = '../img/'.$file;
-      echo '<td class="text-center"'."".'> <button onclick=openPopup("'.$link.'")>'. "$file" . '</button></td>';
+      // echo '<td class="text-center"'."".'> <button onclick=openPopup("'.$link.'")>'. "$file" . '</button></td>';
+      echo '<td class="text-center"'."".'> <img class="img cursor-pointer h-20 w-20 object-cover rounded-full" alt="'. $file .'" src='.$link.'>'. '</img></td>';
+
+
 
   }
       else 
       
-      echo "<td class='text-center'".$hidden.">"  . $row[$col] . "</td>";
+      echo "<td class='text-center '".$hidden.">"  . $row[$col] . "</td>";
       }
 
 
@@ -98,11 +101,26 @@ $n++;
 
 
             $(".searchbtn").click(function() {
-            var search_term = $(this).val(); // Assuming you want to use the value from #search
-            searchRecords(search_term);
-            $("#search").val(search_term);
-            $("#search").focus();
+              var search_term = $(this).val(); // Assuming you want to use the value from #search
+              searchRecords(search_term);
+              $("#search").val(search_term);
+              $("#search").focus();
             }); 
+
+
+            
+            $(".img").click(function(){
+                var url = $(this).attr("src");
+                var width = 500;
+                var height = 500;
+                var left = (window.innerWidth - width) / 2;
+                var top = (window.innerHeight - height) / 2;
+                var features = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top;
+
+                // Open the popup window
+                window.open(url, "_blank", features);
+
+            });
 
         });
     </script>
