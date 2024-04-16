@@ -69,7 +69,7 @@ $columnRenames = renameColumns($columnNames);
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 1"> <span class="text-white material-symbols-outlined border-white">search</span>   </div>
                 
                 <!-- Search Bar-->
-                <input type="text" id="search" class="block w-full p-4 ps-10 text-sm text-gray-900 rounded-3xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." />
+                <input type="text" id="search" class="block w-full p-4 ps-10 text-sm text-gray-900 rounded-3xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Anything" />
                 
                 <!-- X icon -->
                 <div id="clearSearch" class="absolute inset-y-0 end-5 flex items-center cursor-pointer "><span class="text-white material-symbols-outlined">close</span> </div>  
@@ -222,7 +222,9 @@ $columnRenames = renameColumns($columnNames);
 
     <script>
         $(document).ready(function() {
-            function  searchRecords(search_term){
+
+            // search function
+            const  searchRecords=(search_term)=>{
                 if (search_term.length>=0) {
                     $.ajax({
                         url: "search.php?tablename=<?php echo $tableName;?>",
@@ -240,18 +242,18 @@ $columnRenames = renameColumns($columnNames);
                     });
                 }
             }
-
-            // triggers when type in search bar
+            
+            $("#search").focus();
+            // triggers when user type in search bar
             $("#search").keyup (function() {
                 var search_term = $(this).val();
-                // alert(search_term);
                 searchRecords(search_term);
             });
 
             // triggers when click category button
             $(".categorySearch").click(function() {
-                var search_term = $(this).val(); // Assuming you want to use the value from #search
-                searchRecords(search_term);
+                var search_term = $(this).val(); 
+                searchRecords(search_term);     // lists items of specified category
                 $("#search").val(search_term);
                 $("#search").focus();
                 $("#clearSearch").style.display = '';
@@ -259,13 +261,13 @@ $columnRenames = renameColumns($columnNames);
 
             // triggers when click clear-search button
             $("#clearSearch").click(function() {
-                var search_term = " "; // Assuming you want to use the value from #search
+                var search_term = ""; 
                 searchRecords(search_term);
                 $("#search").val(search_term);
                 $("#search").focus();
             }); 
 
-
+            // triggers when click image to zoom it
             $(".img").click(function(){
                 var url = $(this).attr("src");
                 var width = 500;
@@ -278,6 +280,70 @@ $columnRenames = renameColumns($columnNames);
                 window.open(url, "_blank", features);
 
             });
+
+            
+            // Extracting table name from url
+            const url = window.location.href;
+            const queries = new URL(url);
+            const tableName = queries.searchParams.get('tablename');
+            console.log(tableName);
+
+            // searchbar placeholder animation
+            let placeholder = [];
+            switch(tableName){
+                case 'item_list':
+                     placeholders=[
+                        "Search Anything",
+                        "Search \"Margherita Pizza Large\"",
+                        "Search \"Available\"",
+                        "Search \"mozzarella\"",
+                        "Search by clicking on any Category",
+                    ];
+                    break;
+                case 'item_category':
+                     placeholders=[
+                        "Search Anything",
+                        "Search \"Appetizer\"",
+                        "Search \"Dessert\"",
+                        "Search \"Active\"",
+                        "Search \"Inactive\"",
+                    ];
+                    break;
+                case 'item_order':
+                     placeholders=[
+                        "Search Anything",
+                        "Search \"Cooking\"",
+                        "Search by clicking on any Email",
+                        "Search \"Served\"",
+                        "Search by Amount",
+                        "Search \"Cancelled\"",
+                        "Search by clicking on any Item ",
+                    ];
+                    break;
+                case 'item_schedule':
+                     placeholders=[
+                        "Search Anything",
+                        "Search \"Monday\"",
+                        "Search \"Active\"",
+                        "Search by clicking on any Item ",
+                    ];
+                    break;
+                case 'registered_user':
+                     placeholders=[
+                        "Search Anything",
+                        "Search by Name",
+                        "Search by Phone",
+                        "Search by Email",
+                    ];
+                    break;
+
+                }
+            let i = 0;
+            const changePlaceholder = ()=>{
+                $("#search").attr("placeholder",placeholders[i]);
+                i=(i+1) % placeholders.length;
+            }
+            setInterval(changePlaceholder,2000);
         });
     </script>
     <script>
