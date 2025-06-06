@@ -6,7 +6,8 @@ The system generated every entry, be it table names, column names, or even relat
 To be able to make this system your own, read carefully the comments of `table_alias.php` and adjust the keyword according to your own needs. 
  
 <h1>Getting Started</h1>
-The system is implememnted and deployed as a feature of [https://netapp.mooo.com/admin/dashboard.php]. Explore the various tables on the sidebar, watch them generate dynamically by changing the URL query, try editing and find out the forms also generating dynamically, all rendered on the server side.
+The system is implememnted and deployed as a feature of [https://canmansys.littledoiknow.com/admin/dashboard.php]. Explore the various tables on the sidebar, watch them generate dynamically by changing the URL query, try editing and find out the forms also generating dynamically, all rendered on the server side.
+
 
 <h2>Installation</h2>
 To seamlessly integrate the AutoCRUD system into your project, follow these simple installation steps:
