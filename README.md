@@ -205,4 +205,7 @@ Configure AutoCRUD to align with your project requirements by following these se
 
 </ol>
 
+> Feel free to [create an issue](../../issues) or reach out on [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=flat&logo=twitter&logoColor=white)](http://x.com/notomsrivastava/)
+
+
 
