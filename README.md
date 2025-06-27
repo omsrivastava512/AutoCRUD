@@ -1,4 +1,4 @@
-#Introduction
+# Introduction
 
 **AutoCRUD** is a revolutionary, fully automated CRUD system powered by **AJAX** and **Tailwind CSS** that intelligently detects your database structure and dynamically generates complete, production-ready interfaces without manual configuration.
 
